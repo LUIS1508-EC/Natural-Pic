@@ -1,18 +1,22 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 //Exportamos un contexto
 export const PhotosContext = createContext()
 
+export function usePhotosContext() {
+    return useContext(PhotosContext)
+}
 
-export default function PhotosProvider({ children }) {
+
+function PhotosProvider({ children }) {
     const [photos, setPhotos] = useState([])
     const getPhotos = async () => {
         const response = await fetch("/photos.json");
-        const { photos: photosdb } = await response.json()
+        const { photos : photosdb } = await response.json()
         setPhotos(photosdb)
     }
 
-    const setPhotos1 = id => setData(photos.map(d => d.id === id ? {...d, liked: !d.liked} : d ))
+    const setPhotos1 = id => setPhotos(photos.map(d => d.id === id ? {...d, liked: !d.liked} : d ))
     useEffect(() => {
         getPhotos()
     }, [])
@@ -24,3 +28,4 @@ export default function PhotosProvider({ children }) {
 
     )
 }
+export default PhotosProvider

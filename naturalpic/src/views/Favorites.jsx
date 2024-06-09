@@ -1,15 +1,14 @@
-import { useContext } from "react";
-import { PhotosContext } from "../contexts/PhotosContext";
+import { usePhotosContext } from "../contexts/PhotosContext";
+
 const Favoritos = () => {
-  const { photos } = useContext(PhotosContext);
+  const { photos } = usePhotosContext();
   return (
     <div>
-      <h1>
-        Fotos Favoritas
-      </h1>
-      <div className="p-3 gallery grid-columns-4">
-        {photos.filter((element) => element.liked == true).map((element) => (
-          <div key={element.id}></div>
+      <h1>Fotos favoritas</h1>
+      <div className="gallery grid-columns-5 p-3">
+        {photos.map(element => element.liked && (
+          <div className="photo" style={{ backgroundImage: `url(${element.src.tiny})` }} key={element.id} >
+          </div>
         ))}
       </div>
     </div>
